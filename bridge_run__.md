@@ -12,6 +12,7 @@
         // 枚举所有注册的 datapath types，保存在 types 变量中
 	    ofproto_enumerate_types(&types);
 		// 遍历每个 datapath type，调用 ofproto_type_run() 处理
+		// 先调用 dapath_type 级别的 type_run() 函数
 	    SSET_FOR_EACH (type, &types) {
 	        ofproto_type_run(type);
 	    }
@@ -19,6 +20,7 @@
 	
 	    /* Let each bridge do the work that it needs to do. */
 		// 遍历所有的 bridge 进行处理
+		// 然后再调用 ofproto 级别的 run() 函数
 	    HMAP_FOR_EACH (br, node, &all_bridges) {
 	        ofproto_run(br->ofproto);
 	    }
